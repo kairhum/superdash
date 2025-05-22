@@ -1,0 +1,79 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Rumah Sakit</title>
+<style>
+body {
+margin: 0;
+font-family: 'Segoe UI', sans-serif;
+background-color: #f9f9f9;
+color: #333;
+}
+
+header {
+  background-color: #005baa;
+  color: white;
+  padding: 1.5em;
+  text-align: center;
+}
+
+main {
+  padding: 2em;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.dashboard-section {
+  margin-bottom: 3em;
+}
+
+.dashboard-title {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Aturan CSS untuk iframe */
+iframe {
+  width: 100%;
+  height: 600px; /* Default height, bisa di-override oleh atribut height di embed code */
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+  iframe {
+    height: 400px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Dashboard Rumah Sakit Semen Gresik</h1>
+<p>Akses Cepat ke Rangkuman Data Strategis</p>
+</header>
+
+<main>
+<div class="dashboard-section">
+<div class="dashboard-title">📊 Dashboard Inventory</div>
+<iframe src="https://lookerstudio.google.com/reporting/e878daac-a774-4b44-812f-8ca74981a099" allowfullscreen></iframe>
+</div>
+
+<div class="dashboard-section">
+  <div class="dashboard-title">💰 Dashboard Biaya</div>
+  <iframe width="100%" height="600" src="https://lookerstudio.google.com/embed/reporting/301d7d74-c1f7-4c34-acf4-63d226f131ae/page/p_8gfcnjykrd" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+</div>
+
+<div class="dashboard-section">
+  <div class="dashboard-title">💵 Dashboard Pendapatan</div>
+  <iframe src="https://lookerstudio.google.com/u/0/reporting/ae17a13b-2bac-4da0-8efc-4148cec1db1d/page/p_rn9up66vpd" allowfullscreen></iframe>
+</div>
+</main>
+
+</body>
+</html>

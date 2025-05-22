@@ -149,24 +149,45 @@
     }
   }
 </script>
-<!-- 🧠 AI Assistant Chat Widget -->
-<div id="chat-bubble" onclick="toggleChat()" title="Butuh bantuan? Klik di sini!">
-  🤖
-</div>
+<script>
+  function toggleChat() {
+    const box = document.getElementById('chat-box');
+    box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
+  }
 
-<div id="chat-box">
-  <div id="chat-header">
-    Asisten ERP
-    <span onclick="toggleChat()" style="cursor:pointer;">✖</span>
-  </div>
-  <div id="chat-content">
-    <p><strong>Halo!</strong> Saya di sini untuk bantu lihat laporan, inventory, atau biaya. Ada yang bisa dibantu?</p>
-  </div>
-  <div id="chat-input">
-    <input type="text" placeholder="Ketik pertanyaan..." />
-    <button onclick="sendChat()">📨</button>
-  </div>
-</div>
+  function sendChat() {
+    const input = document.querySelector('#chat-input input');
+    const content = document.getElementById('chat-content');
+    const msg = input.value.trim();
+    if (msg) {
+      const p = document.createElement('p');
+      p.innerHTML = "<strong>Kamu:</strong> " + msg;
+      content.appendChild(p);
+      input.value = '';
+      content.scrollTop = content.scrollHeight;
+
+      // Kirim ke backend Flask
+      fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const botReply = document.createElement('p');
+        botReply.innerHTML = "<strong>fathbot:</strong> " + data.reply;
+        content.appendChild(botReply);
+        content.scrollTop = content.scrollHeight;
+      })
+      .catch(error => {
+        const err = document.createElement('p');
+        err.innerHTML = "<strong>fathbot:</strong> Maaf, ada gangguan jaringan.";
+        content.appendChild(err);
+      });
+    }
+  }
+</script>
+
 
 <style>
   #chat-bubble {

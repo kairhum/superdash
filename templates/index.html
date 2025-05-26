@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gallery Dashboard</title>
+  <title>Gallery Dashboard + Chatbot</title>
   <style>
     body {
       margin: 0;
@@ -18,14 +18,6 @@
       text-align: center;
       border-radius: 0 0 20px 20px;
     }
-    header h1 {
-      margin: 0;
-      font-size: 1.8em;
-    }
-    header p {
-      font-size: 1em;
-      opacity: 0.9;
-    }
     main {
       padding: 2em 1em;
       max-width: 1400px;
@@ -37,116 +29,64 @@
       gap: 1.5em;
     }
     .dashboard-card {
-      background-color: white;
+      background: #fff;
       border-radius: 15px;
       padding: 1em;
       box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-      position: relative;
-      transition: transform 0.3s, width 0.3s, height 0.3s;
-      overflow: hidden;
-    }
-    .dashboard-card:hover {
-      transform: scale(1.02);
-      z-index: 10;
-    }
-    .dashboard-title {
-      font-size: 1.2em;
-      font-weight: 600;
-      margin-bottom: 0.5em;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .fullscreen-btn {
-      font-size: 0.9em;
-      padding: 0.3em 0.7em;
-      background-color: #005baa;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .fullscreen-btn:hover {
-      background-color: #003f7d;
-    }
-    iframe {
-      width: 100%;
-      height: 350px;
-      border: none;
-      border-radius: 10px;
-      transition: height 0.3s ease;
-    }
-    @media (max-width: 768px) {
-      iframe {
-        height: 280px;
-      }
-    }
-
-    /* Chatbot Styles */
-    #chat-bubble {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      background-color: #005baa;
-      color: white;
-      font-size: 26px;
-      padding: 12px 16px;
-      border-radius: 50%;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      cursor: pointer;
-      z-index: 1000;
       transition: transform 0.3s;
     }
-    #chat-bubble:hover {
-      transform: scale(1.1);
+    .dashboard-card:hover { transform: scale(1.02); }
+    .dashboard-title {
+      font-size: 1.2em; font-weight: 600;
+      margin-bottom: .5em;
+      display: flex; justify-content: space-between; align-items: center;
     }
+    .fullscreen-btn {
+      font-size: .9em; padding: .3em .7em;
+      background: #005baa; color: #fff;
+      border: none; border-radius:6px; cursor:pointer;
+    }
+    iframe {
+      width:100%; height:350px; border:none; border-radius:10px;
+    }
+    @media(max-width:768px){ iframe{height:280px;} }
+    /* Chat */
+    #chat-bubble {
+      position:fixed; bottom:25px; right:25px;
+      background:#005baa; color:#fff;
+      font-size:26px; padding:12px 16px;
+      border-radius:50%; cursor:pointer;
+      box-shadow:0 4px 12px rgba(0,0,0,0.3); z-index:1000;
+      transition:transform .3s;
+    }
+    #chat-bubble:hover { transform:scale(1.1); }
     #chat-box {
-      display: none;
-      flex-direction: column;
-      position: fixed;
-      bottom: 90px;
-      right: 25px;
-      width: 300px;
-      max-height: 400px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-      z-index: 1001;
-      overflow: hidden;
+      display:none; position:fixed;
+      bottom:90px; right:25px;
+      width:300px; max-height:400px;
+      background:#fff; border:1px solid #ccc;
+      border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.2);
+      z-index:1001; overflow:hidden;
+      flex-direction:column;
     }
     #chat-header {
-      background: #005baa;
-      color: white;
-      padding: 10px;
-      font-weight: bold;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      background:#005baa; color:#fff;
+      padding:10px; font-weight:bold;
+      display:flex; justify-content:space-between;
     }
     #chat-content {
-      flex: 1;
-      padding: 10px;
-      font-size: 0.9em;
-      overflow-y: auto;
+      flex:1; padding:10px;
+      font-size:.9em; overflow-y:auto;
     }
     #chat-input {
-      display: flex;
-      border-top: 1px solid #ddd;
+      display:flex; border-top:1px solid #ddd;
     }
     #chat-input input {
-      flex: 1;
-      padding: 8px;
-      border: none;
-      outline: none;
+      flex:1; padding:8px; border:none; outline:none;
     }
     #chat-input button {
-      background: #005baa;
-      border: none;
-      color: white;
-      padding: 0 12px;
-      cursor: pointer;
+      background:#005baa; color:#fff;
+      border:none; padding:0 12px; cursor:pointer;
     }
   </style>
 </head>
@@ -154,105 +94,113 @@
 
 <header>
   <h1>Gallery Dashboard Pengembangan Proses Bisnis & ERP</h1>
-  <p>Akses cepat ke laporan tervisualisasi</p>
+  <p>Akses cepat ke laporan tervisualisasi + AI Assistant</p>
 </header>
 
 <main>
   <div class="dashboard-grid">
+    <!-- 1. Pendapatan & Volume -->
     <div class="dashboard-card">
       <div class="dashboard-title">
-        📊 Dashboard Inventory
-        <button class="fullscreen-btn" onclick="openFullscreen('iframe1')">Fullscreen</button>
+        💵 Dashboard Pendapatan & Volume
+        <button class="fullscreen-btn" onclick="openFullscreen('iframe3')">Fullscreen</button>
       </div>
-      <iframe id="iframe1" src="https://lookerstudio.google.com/embed/reporting/e878daac-a774-4b44-812f-8ca74981a099/page/p_ej05wkbjsd"
-        allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups allow-storage-access-by-user-activation allow-popups-to-escape-sandbox">
-      </iframe>
+      <iframe id="iframe3" src="https://lookerstudio.google.com/embed/reporting/a5064952-3964-4898-9896-a1e0a3959821/page/p_ewsqr90fsd"></iframe>
     </div>
-
+    <!-- 2. Biaya -->
     <div class="dashboard-card">
       <div class="dashboard-title">
         💰 Dashboard Biaya
         <button class="fullscreen-btn" onclick="openFullscreen('iframe2')">Fullscreen</button>
       </div>
-      <iframe id="iframe2" src="https://lookerstudio.google.com/embed/reporting/301d7d74-c1f7-4c34-acf4-63d226f131ae/page/t3tGF"
-        allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups allow-storage-access-by-user-activation allow-popups-to-escape-sandbox">
-      </iframe>
+      <iframe id="iframe2" src="https://lookerstudio.google.com/embed/reporting/301d7d74-c1f7-4c34-acf4-63d226f131ae/page/t3tGF"></iframe>
     </div>
-
+    <!-- 3. Inventory -->
     <div class="dashboard-card">
       <div class="dashboard-title">
-        💵 Dashboard Pendapatan
-        <button class="fullscreen-btn" onclick="openFullscreen('iframe3')">Fullscreen</button>
+        📊 Dashboard Inventory
+        <button class="fullscreen-btn" onclick="openFullscreen('iframe1')">Fullscreen</button>
       </div>
-      <iframe id="iframe3" src="https://lookerstudio.google.com/embed/reporting/a5064952-3964-4898-9896-a1e0a3959821/page/p_kby6ry0hsd"
-        allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups allow-storage-access-by-user-activation allow-popups-to-escape-sandbox">
-      </iframe>
+      <iframe id="iframe1" src="https://lookerstudio.google.com/embed/reporting/e878daac-a774-4b44-812f-8ca74981a099/page/p_ej05wkbjsd"></iframe>
+    </div>
+    <!-- 4. Piutang -->
+    <div class="dashboard-card">
+      <div class="dashboard-title">
+        💎 Dashboard Piutang
+        <button class="fullscreen-btn" onclick="openFullscreen('iframe4')">Fullscreen</button>
+      </div>
+      <iframe id="iframe4" src="https://lookerstudio.google.com/embed/reporting/65072280-b5f9-444a-a85c-dd602604748c/page/p_p5ntjkgnsd"></iframe>
+    </div>
+    <!-- 5. Asset -->
+    <div class="dashboard-card">
+      <div class="dashboard-title">
+        🏥 Dashboard Asset
+        <button class="fullscreen-btn" onclick="openFullscreen('iframe5')">Fullscreen</button>
+      </div>
+      <iframe id="iframe5" src="https://lookerstudio.google.com/embed/reporting/4610fb71-232f-449f-b3c1-892eb295b007/page/9osEF"></iframe>
     </div>
   </div>
 </main>
 
 <!-- Chatbot UI -->
-<div id="chat-bubble" onclick="toggleChat()">💬</div>
+<div id="chat-bubble" onclick="toggleChat()">🤖</div>
 
 <div id="chat-box">
   <div id="chat-header">
-    fathbot
-    <span style="cursor:pointer;" onclick="toggleChat()">❌</span>
+    Asisten ERP
+    <span style="cursor:pointer;" onclick="toggleChat()">✖</span>
   </div>
-  <div id="chat-content"></div>
+  <div id="chat-content">
+    <p><strong>Halo!</strong> Ada yang bisa saya bantu?</p>
+  </div>
   <div id="chat-input">
-    <input type="text" placeholder="Tanya tentang ERP..." onkeydown="if(event.key === 'Enter') sendChat()" />
-    <button onclick="sendChat()">⏎</button>
+    <input type="text" placeholder="Ketik pertanyaan..." onkeydown="if(event.key==='Enter') sendChat()" />
+    <button onclick="sendChat()">📨</button>
   </div>
 </div>
 
-<!-- Scripts -->
 <script>
   function openFullscreen(id) {
-    const iframe = document.getElementById(id);
-    if (iframe.requestFullscreen) {
-      iframe.requestFullscreen();
-    } else if (iframe.webkitRequestFullscreen) {
-      iframe.webkitRequestFullscreen(); // Safari
-    } else if (iframe.msRequestFullscreen) {
-      iframe.msRequestFullscreen(); // IE/Edge
-    }
+    const el = document.getElementById(id);
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    else if (el.msRequestFullscreen) el.msRequestFullscreen();
   }
 
   function toggleChat() {
     const box = document.getElementById('chat-box');
-    box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
+    box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
   }
 
   function sendChat() {
     const input = document.querySelector('#chat-input input');
     const content = document.getElementById('chat-content');
     const msg = input.value.trim();
-    if (msg) {
-      const userMsg = document.createElement('p');
-      userMsg.innerHTML = "<strong>Kamu:</strong> " + msg;
-      content.appendChild(userMsg);
-      input.value = '';
-      content.scrollTop = content.scrollHeight;
+    if (!msg) return;
 
-      fetch("/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msg })
-      })
-      .then(res => res.json())
-      .then(data => {
-        const botReply = document.createElement('p');
-        botReply.innerHTML = "<strong>fathbot:</strong> " + data.reply;
-        content.appendChild(botReply);
-        content.scrollTop = content.scrollHeight;
-      })
-      .catch(error => {
-        const err = document.createElement('p');
-        err.innerHTML = "<strong>fathbot:</strong> Maaf, ada gangguan jaringan.";
-        content.appendChild(err);
-      });
-    }
+    const pUser = document.createElement('p');
+    pUser.innerHTML = `<strong>Kamu:</strong> ${msg}`;
+    content.appendChild(pUser);
+    input.value = '';
+    content.scrollTop = content.scrollHeight;
+
+    fetch('/chat', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({message: msg})
+    })
+    .then(r=>r.json())
+    .then(data=>{
+      const pBot = document.createElement('p');
+      pBot.innerHTML = `<strong>fathbot:</strong> ${data.reply}`;
+      content.appendChild(pBot);
+      content.scrollTop = content.scrollHeight;
+    })
+    .catch(()=>{
+      const pErr = document.createElement('p');
+      pErr.innerHTML = `<strong>fathbot:</strong> Maaf, terjadi kesalahan.`;
+      content.appendChild(pErr);
+    });
   }
 </script>
 
